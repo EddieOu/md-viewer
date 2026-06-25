@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="240" viewBox="0 0 640 240" role="img" aria-labelledby="title desc">
+  <title id="title">Markdown preview sample</title>
+  <desc id="desc">A simple preview image used by the local Markdown viewer demo.</desc>
+  <rect width="640" height="240" rx="18" fill="#eff6ff"/>
+  <circle cx="116" cy="120" r="58" fill="#2563eb"/>
+  <rect x="210" y="72" width="330" height="22" rx="11" fill="#0f766e"/>
+  <rect x="210" y="112" width="260" height="18" rx="9" fill="#93a4b8"/>
+  <rect x="210" y="146" width="300" height="18" rx="9" fill="#c7d2e2"/>
+  <text x="116" y="132" text-anchor="middle" font-family="Arial, sans-serif" font-size="38" font-weight="700" fill="#ffffff">MD</text>
+</svg>

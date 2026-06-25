@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Local Markdown Viewer</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%232563eb'/%3E%3Ctext x='32' y='40' text-anchor='middle' font-size='22' font-family='Arial' font-weight='700' fill='white'%3EMD%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <aside class="viewer-panel" aria-label="Markdown workspace">
+        <div class="brand-block">
+          <div class="brand-mark">MD</div>
+          <div>
+            <h1>Local Markdown Viewer</h1>
+            <p id="documentStatus">尚未載入檔案</p>
+          </div>
+        </div>
+
+        <section id="dropZone" class="drop-zone" aria-label="Import markdown">
+          <div>
+            <h2>匯入</h2>
+            <p>拖曳資料夾或 Markdown</p>
+          </div>
+          <div class="action-row">
+            <label class="button-like" for="fileInput">選擇檔案</label>
+            <label class="button-like secondary" for="folderInput">選擇資料夾</label>
+          </div>
+          <input id="fileInput" class="visually-hidden" type="file" accept=".md,.markdown,text/markdown,text/plain" multiple>
+          <input id="folderInput" class="visually-hidden" type="file" webkitdirectory directory multiple>
+        </section>
+
+        <section class="sidebar-section">
+          <div class="section-header">
+            <h2>檔案</h2>
+            <span id="fileCount">0</span>
+          </div>
+          <nav id="fileTree" class="file-tree" aria-label="Markdown files">
+            <p class="panel-empty">尚未匯入</p>
+          </nav>
+        </section>
+
+        <section class="sidebar-section toc-section">
+          <div class="section-header">
+            <h2>目錄</h2>
+          </div>
+          <nav id="tocList" class="toc-list" aria-label="Current document headings">
+            <p class="panel-empty">尚無標題</p>
+          </nav>
+        </section>
+      </aside>
+
+      <section class="document-surface" aria-live="polite">
+        <article id="markdownContent" class="markdown-body">
+          <div class="empty-state">
+            <h2>拖曳 Markdown 開始閱讀</h2>
+            <p>可匯入單一檔案，也可匯入包含多份文件與圖片的資料夾。</p>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <script src="vendor/purify.min.js"></script>
+    <script src="vendor/marked.min.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
