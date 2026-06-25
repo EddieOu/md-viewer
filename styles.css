@@ -32,8 +32,7 @@ input {
   font: inherit;
 }
 
-button,
-.button-like {
+button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -48,14 +47,12 @@ button,
   cursor: pointer;
 }
 
-button:hover,
-.button-like:hover {
+button:hover {
   background: var(--accent-strong);
 }
 
 button:focus-visible,
 input:focus-visible,
-.button-like:focus-visible,
 a:focus-visible {
   outline: 3px solid rgba(37, 99, 235, 0.24);
   outline-offset: 2px;
@@ -63,38 +60,18 @@ a:focus-visible {
 
 .app-shell {
   display: grid;
-  grid-template-columns: minmax(300px, 360px) minmax(0, 1fr);
+  grid-template-columns: minmax(280px, 340px) minmax(0, 1fr);
   min-height: 100vh;
 }
 
 .viewer-panel {
   display: grid;
-  grid-template-rows: auto auto minmax(150px, 1fr) minmax(120px, 0.75fr);
-  gap: 18px;
+  grid-template-rows: minmax(0, 1fr);
   max-height: 100vh;
-  padding: 24px;
+  padding: 16px;
   overflow: hidden;
   background: var(--panel);
   border-right: 1px solid var(--line);
-}
-
-.brand-block {
-  display: flex;
-  gap: 14px;
-  align-items: center;
-}
-
-.brand-mark {
-  display: grid;
-  flex: 0 0 auto;
-  place-items: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 8px;
-  background: linear-gradient(135deg, var(--accent), var(--success));
-  color: #fff;
-  font-weight: 800;
-  letter-spacing: 0;
 }
 
 h1,
@@ -105,56 +82,8 @@ p {
 
 h1 {
   margin-bottom: 0;
-  font-size: 21px;
-  line-height: 1.2;
-}
-
-.brand-block p,
-.drop-zone p,
-.panel-empty {
-  margin-bottom: 0;
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.4;
-}
-
-.drop-zone {
-  display: grid;
-  gap: 14px;
-  padding: 16px;
-  border: 1px dashed #aab8cf;
-  border-radius: 8px;
-  background: var(--panel-soft);
-  transition: background 140ms ease, border-color 140ms ease, box-shadow 140ms ease;
-}
-
-.drop-zone h2,
-.section-header h2 {
-  margin-bottom: 0;
   font-size: 14px;
   line-height: 1.3;
-}
-
-.drop-zone.is-dragging,
-body.is-dragging .drop-zone {
-  border-color: var(--accent);
-  background: var(--accent-soft);
-  box-shadow: inset 0 0 0 1px rgba(37, 99, 235, 0.18);
-}
-
-.action-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-}
-
-.button-like.secondary {
-  background: #e7f6f3;
-  color: #0f5f59;
-}
-
-.button-like.secondary:hover {
-  background: #cce9e4;
 }
 
 .visually-hidden {
@@ -175,6 +104,16 @@ body.is-dragging .drop-zone {
   border-radius: 8px;
   overflow: hidden;
   background: #fff;
+}
+
+.file-panel {
+  transition: border-color 140ms ease, box-shadow 140ms ease;
+}
+
+.file-panel.is-dragging,
+body.is-dragging .file-panel {
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 2px rgba(37, 99, 235, 0.18);
 }
 
 .section-header {
@@ -199,15 +138,31 @@ body.is-dragging .drop-zone {
   font-weight: 700;
 }
 
-.file-tree,
-.toc-list {
+.file-tree {
   min-height: 0;
-  padding: 8px;
+  padding: 10px;
   overflow: auto;
 }
 
 .panel-empty {
-  padding: 6px 4px;
+  display: grid;
+  min-height: 100%;
+  place-content: center;
+  gap: 6px;
+  padding: 20px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.45;
+  text-align: center;
+}
+
+.panel-empty strong {
+  color: #344054;
+  font-size: 15px;
+}
+
+.panel-empty span {
+  max-width: 220px;
 }
 
 .file-tree ul {
@@ -240,8 +195,7 @@ body.is-dragging .drop-zone {
   background: #f0f4f8;
 }
 
-.file-button,
-.toc-list a {
+.file-button {
   width: 100%;
   min-height: 32px;
   justify-content: flex-start;
@@ -262,26 +216,9 @@ body.is-dragging .drop-zone {
 }
 
 .file-button:hover,
-.file-button[aria-current="true"],
-.toc-list a:hover {
+.file-button[aria-current="true"] {
   background: var(--accent-soft);
   color: var(--accent-strong);
-}
-
-.toc-list a {
-  display: flex;
-  text-decoration: none;
-}
-
-.toc-depth-2 {
-  padding-left: 18px;
-}
-
-.toc-depth-3,
-.toc-depth-4,
-.toc-depth-5,
-.toc-depth-6 {
-  padding-left: 30px;
 }
 
 .document-surface {
@@ -425,7 +362,7 @@ body.is-dragging .drop-zone {
   }
 
   .viewer-panel {
-    grid-template-rows: auto auto minmax(160px, 35vh) minmax(110px, 24vh);
+    grid-template-rows: minmax(240px, 42vh);
     max-height: none;
     padding: 16px;
     border-right: 0;

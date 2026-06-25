@@ -10,44 +10,19 @@
   <body>
     <main class="app-shell">
       <aside class="viewer-panel" aria-label="Markdown workspace">
-        <div class="brand-block">
-          <div class="brand-mark">MD</div>
-          <div>
-            <h1>Local Markdown Viewer</h1>
-            <p id="documentStatus">尚未載入檔案</p>
-          </div>
-        </div>
-
-        <section id="dropZone" class="drop-zone" aria-label="Import markdown">
-          <div>
-            <h2>匯入</h2>
-            <p>拖曳資料夾或 Markdown</p>
-          </div>
-          <div class="action-row">
-            <label class="button-like" for="fileInput">選擇檔案</label>
-            <label class="button-like secondary" for="folderInput">選擇資料夾</label>
-          </div>
-          <input id="fileInput" class="visually-hidden" type="file" accept=".md,.markdown,text/markdown,text/plain" multiple>
-          <input id="folderInput" class="visually-hidden" type="file" webkitdirectory directory multiple>
-        </section>
-
-        <section class="sidebar-section">
+        <section id="filePanel" class="sidebar-section file-panel" aria-label="Import and browse markdown files">
           <div class="section-header">
-            <h2>檔案</h2>
+            <h1>檔案樹</h1>
             <span id="fileCount">0</span>
           </div>
           <nav id="fileTree" class="file-tree" aria-label="Markdown files">
-            <p class="panel-empty">尚未匯入</p>
+            <div class="panel-empty">
+              <strong>拖曳到這裡</strong>
+              <span>將資料夾或 Markdown 檔拖進檔案樹區塊</span>
+            </div>
           </nav>
-        </section>
-
-        <section class="sidebar-section toc-section">
-          <div class="section-header">
-            <h2>目錄</h2>
-          </div>
-          <nav id="tocList" class="toc-list" aria-label="Current document headings">
-            <p class="panel-empty">尚無標題</p>
-          </nav>
+          <input id="fileInput" class="visually-hidden" type="file" accept=".md,.markdown,text/markdown,text/plain" multiple>
+          <input id="folderInput" class="visually-hidden" type="file" webkitdirectory directory multiple>
         </section>
       </aside>
 

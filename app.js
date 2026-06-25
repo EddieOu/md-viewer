@@ -1,11 +1,9 @@
 const content = document.querySelector("#markdownContent");
-const statusText = document.querySelector("#documentStatus");
-const dropZone = document.querySelector("#dropZone");
+const filePanel = document.querySelector("#filePanel");
 const fileInput = document.querySelector("#fileInput");
 const folderInput = document.querySelector("#folderInput");
 const fileTree = document.querySelector("#fileTree");
 const fileCount = document.querySelector("#fileCount");
-const tocList = document.querySelector("#tocList");
 
 const allFiles = new Map();
 const markdownFiles = new Map();
@@ -16,10 +14,6 @@ marked.use({
   gfm: true,
   breaks: false
 });
-
-function setStatus(message) {
-  statusText.textContent = message;
-}
 
 function isMarkdownPath(path) {
   return /\.(md|markdown|mdown)$/i.test(path);
@@ -122,8 +116,7 @@ async function importFiles(files) {
 
 function renderEmpty(message) {
   content.innerHTML = `<div class="empty-state"><h2>${message}</h2></div>`;
-  tocList.innerHTML = '<p class="panel-empty">尚無標題</p>';
-  setStatus(message);
+  document.title = `${message} - Local Markdown Viewer`;
 }
 
 async function openMarkdown(path) {
@@ -136,7 +129,6 @@ async function openMarkdown(path) {
   }
 
   activePath = safePath;
-  setStatus("讀取中");
 
   try {
     const markdown = await file.text();
@@ -144,9 +136,7 @@ async function openMarkdown(path) {
     content.innerHTML = DOMPurify.sanitize(html, { USE_PROFILES: { html: true } });
     prepareHeadings();
     rewriteLocalReferences();
-    renderToc();
     renderFileTree();
-    setStatus(safePath);
     document.title = `${displayName(safePath)} - Local Markdown Viewer`;
   } catch (error) {
     renderEmpty("無法讀取這份 Markdown。");
@@ -157,7 +147,7 @@ function renderFileTree() {
   fileCount.textContent = markdownFiles.size.toString();
 
   if (!markdownFiles.size) {
-    fileTree.innerHTML = '<p class="panel-empty">尚未匯入</p>';
+    fileTree.innerHTML = '<div class="panel-empty"><strong>拖曳到這裡</strong><span>將資料夾或 Markdown 檔拖進檔案樹區塊</span></div>';
     return;
   }
 
@@ -230,28 +220,6 @@ function prepareHeadings() {
     seen.set(base, count + 1);
     heading.id = count ? `${base}-${count + 1}` : base;
   });
-}
-
-function renderToc() {
-  const headings = [...content.querySelectorAll("h1, h2, h3, h4, h5, h6")];
-
-  if (!headings.length) {
-    tocList.innerHTML = '<p class="panel-empty">尚無標題</p>';
-    return;
-  }
-
-  const fragment = document.createDocumentFragment();
-
-  for (const heading of headings) {
-    const link = document.createElement("a");
-    link.href = `#${heading.id}`;
-    link.className = `toc-depth-${heading.tagName.slice(1)}`;
-    link.textContent = heading.textContent || heading.id;
-    fragment.appendChild(link);
-  }
-
-  tocList.innerHTML = "";
-  tocList.appendChild(fragment);
 }
 
 function splitReference(value) {
@@ -354,7 +322,7 @@ function rewriteLocalReferences() {
 
 function setDragging(isDragging) {
   document.body.classList.toggle("is-dragging", isDragging);
-  dropZone.classList.toggle("is-dragging", isDragging);
+  filePanel.classList.toggle("is-dragging", isDragging);
 }
 
 async function readDirectoryEntry(entry, path = "") {
@@ -411,23 +379,6 @@ fileTree.addEventListener("click", (event) => {
   openMarkdown(button.dataset.path);
 });
 
-tocList.addEventListener("click", (event) => {
-  const link = event.target.closest("a[href^='#']");
-
-  if (!link) {
-    return;
-  }
-
-  const target = findHeadingById(link.hash.slice(1));
-
-  if (!target) {
-    return;
-  }
-
-  event.preventDefault();
-  target.scrollIntoView({ behavior: "smooth", block: "start" });
-});
-
 content.addEventListener("click", async (event) => {
   const link = event.target.closest("a[data-local-markdown]");
 
@@ -453,28 +404,36 @@ folderInput.addEventListener("change", () => {
   folderInput.value = "";
 });
 
+document.addEventListener("dragover", (event) => {
+  event.preventDefault();
+});
+
+document.addEventListener("drop", (event) => {
+  event.preventDefault();
+});
+
 ["dragenter", "dragover"].forEach((eventName) => {
-  document.addEventListener(eventName, (event) => {
+  filePanel.addEventListener(eventName, (event) => {
     event.preventDefault();
     setDragging(true);
   });
 });
 
 ["dragleave", "drop"].forEach((eventName) => {
-  document.addEventListener(eventName, (event) => {
+  filePanel.addEventListener(eventName, (event) => {
     event.preventDefault();
 
     if (eventName === "drop") {
       return;
     }
 
-    if (!event.relatedTarget || event.relatedTarget === document.documentElement) {
+    if (!event.relatedTarget || !filePanel.contains(event.relatedTarget)) {
       setDragging(false);
     }
   });
 });
 
-document.addEventListener("drop", async (event) => {
+filePanel.addEventListener("drop", async (event) => {
   event.preventDefault();
   setDragging(false);
 
