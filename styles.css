@@ -133,7 +133,14 @@ body.is-dragging .file-panel {
   background: var(--panel-soft);
 }
 
-.section-header span {
+.section-title {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-title span {
   display: inline-flex;
   min-width: 28px;
   justify-content: center;
@@ -143,6 +150,26 @@ body.is-dragging .file-panel {
   color: #344054;
   font-size: 12px;
   font-weight: 700;
+}
+
+.refresh-tree-button {
+  min-height: 30px;
+  border: 1px solid var(--line);
+  padding: 0 9px;
+  background: #fff;
+  color: #344054;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.refresh-tree-button:hover:not(:disabled) {
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+}
+
+.refresh-tree-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
 }
 
 .file-tree {

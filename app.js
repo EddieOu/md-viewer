@@ -4,6 +4,7 @@ const fileInput = document.querySelector("#fileInput");
 const folderInput = document.querySelector("#folderInput");
 const fileTree = document.querySelector("#fileTree");
 const fileCount = document.querySelector("#fileCount");
+const refreshTreeButton = document.querySelector("#refreshTreeButton");
 
 const allFiles = new Map();
 const markdownFiles = new Map();
@@ -145,6 +146,7 @@ async function openMarkdown(path) {
 
 function renderFileTree() {
   fileCount.textContent = markdownFiles.size.toString();
+  refreshTreeButton.disabled = markdownFiles.size === 0;
 
   if (!markdownFiles.size) {
     fileTree.innerHTML = '<div class="panel-empty"><strong>拖曳到這裡</strong><span>將資料夾或 Markdown 檔拖進檔案樹區塊</span></div>';
@@ -377,6 +379,18 @@ fileTree.addEventListener("click", (event) => {
   }
 
   openMarkdown(button.dataset.path);
+});
+
+refreshTreeButton.addEventListener("click", () => {
+  if (!markdownFiles.size) {
+    return;
+  }
+
+  const pathToOpen = activePath && markdownFiles.has(activePath)
+    ? activePath
+    : [...markdownFiles.keys()].sort(naturalSort)[0];
+
+  openMarkdown(pathToOpen);
 });
 
 content.addEventListener("click", async (event) => {
